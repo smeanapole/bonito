@@ -1,0 +1,49 @@
+# Bonito Melchior CTC-CRF Model Configuration (RNA R004)
+# CTC-CRF loss with state-aware transitions for RNA sequencing
+
+[model]
+package = "bonito.melchior"
+model_type = "crf"
+
+[labels]
+labels = ["N", "A", "C", "G", "U"]
+
+[input]
+features = 1
+
+[model_config]
+in_channels = 1
+embed_dim = 768
+depth = 20
+num_heads = 8
+mlp_ratio = 4.0
+drop_rate = 0.0
+drop_path_rate = 0.1
+output_length = 420
+input_seq_len = 4096
+
+[crf]
+state_len = 5
+scale = 5.0
+blank_score = 2.0
+expand_blanks = true
+
+[basecaller]
+batchsize = 64
+chunksize = 4096
+overlap = 512
+
+[optim]
+weight_decay = 0.01
+
+[lr_scheduler]
+package = "bonito.schedule"
+symbol = "linear_warmup_cosine_decay"
+
+[run_info]
+sample_type = "rna"
+sample_rate = 5000
+
+[qscore]
+scale = 1.05
+bias = 1.3
